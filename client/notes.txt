@@ -1,0 +1,29 @@
+IMPORTANT!!!
+    check for "TODO" comments
+
+
+Header height: 372/1920
+
+Card back png size / Deck png size: 514 x 824 / 927 x 987
+    card back png size matches the card back size in the deck png
+
+font sizing: .75 pt per pixel
+
+z-indexes:
+    header: container: 700;
+    header: header: none; (necessary to put the video underneath the header image)
+    header: progressbar: -10;
+    home: container: 800
+    home: buttons: 900;
+    card: container: 1000;
+    card: scene: 1100; (deck image)
+    card: card: 1200; (actual card being animated)
+    card: overlay: 1050;
+    card: cardback: 1300;
+    card: cardback buttons: 1400;
+
+
+
+backface visibility = visible;
+webkit backface visibility
+z-index on model removed?

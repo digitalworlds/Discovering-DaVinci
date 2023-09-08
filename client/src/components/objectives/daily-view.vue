@@ -1,0 +1,94 @@
+<template>
+  <div ref="dailyContainer" class="daily-container">
+    <objective-card
+      v-for="(objective_key, index) in Object.keys(this.objectives.daily)"
+      :key="index"
+      :title="objective_key"
+      :objective="objectives.daily[objective_key]"
+      :sectionTitle="sectionTitle"
+      :ref="`${objective_key}`"
+      @playClaimed="$emit('playClaimed')"
+      @insufficientFunds="$emit('insufficientFunds')"
+      @onClaimObjective="onClaimObjective(objective_key)"
+    />
+    <div
+      class="addPadding"
+      style="height: calc((var(--inner-height) * (300 / 1920))/2); width:100%;"
+    ></div>
+    <claim-objective-modal ref="claimObjectiveModal" @continue="onModalContinue()" />
+  </div>
+</template>
+
+<script>
+import ObjectiveCard from "./objective-card";
+import ClaimObjectiveModal from "../modals/claim-objective-modal";
+
+const bodyScrollLock = require("body-scroll-lock");
+
+export default {
+  name: "DailyView",
+  components: {
+    ObjectiveCard,
+    ClaimObjectiveModal
+  },
+  data() {
+    return {
+      sectionTitle: "daily",
+      objectives: {
+        'daily': {},
+      },
+      objectiveKey: ''
+    };
+  },
+  async created() {
+    await this.getObjectives();
+  },
+  updated() {
+    // run something after dom has changed by vue
+    bodyScrollLock.disableBodyScroll(this.$refs.dailyContainer);
+  },
+  methods: {
+    async getObjectives() {
+      let objectives = await this.$store.dispatch("getObjectives");
+      if (objectives) this.objectives = objectives;
+    },
+    onClaimObjective(objective_key) {
+      this.objectiveKey = objective_key;
+      this.$refs.claimObjectiveModal.playAnimation();
+    },
+    onModalContinue() {
+      this.$refs[this.objectiveKey][0].claimReward()
+    }
+  }
+};
+</script>
+
+<style scoped>
+.daily-container {
+  background: url(../../assets/BackgroundBlackout.png);
+  background-size: 100% 100%;
+  background-repeat: no-repeat;
+
+  position: relative;
+  height: calc(var(--inner-height) * (1270 / 1920));
+
+  width: 100%;
+
+  overflow-y: scroll;
+  overflow-x: hidden;
+}
+
+.grid-wrapper {
+  height: 100%;
+  width: 100%;
+
+  display: grid;
+  grid-template-columns: repeat(1, 100%);
+  grid-gap: 10px;
+  grid-auto-rows: minmax(97px, auto);
+
+  justify-items: center;
+
+  overflow-y: scroll;
+}
+</style>

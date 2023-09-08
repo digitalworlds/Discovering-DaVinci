@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1.0">
+  <title>client</title>
+  <script src="https://aframe.io/releases/0.9.0/aframe.min.js"></script>
+  <script src="https://cdn.rawgit.com/jeromeetienne/AR.js/1.7.8/aframe/build/aframe-ar.js"> </script>
+  <script src="//cdn.rawgit.com/donmccurdy/aframe-extras/v6.0.0/dist/aframe-extras.min.js"></script>
+  <script>
+    THREEx.ArToolkitContext.baseURL = 'https://rawgit.com/jeromeetienne/ar.js/master/three.js/'
+  </script>
+  <script>
+    // https://stackoverflow.com/questions/35710130/shadow-catcher-in-three-js-shadow-on-transparent-material/35711403#35711403
+    AFRAME.registerComponent("shadow-catcher", {
+      init: function () {
+        var el = this.el;
+
+        var material = new THREE.ShadowMaterial();
+        var geometry = new THREE.PlaneBufferGeometry(10, 10, 10);
+
+        material.opacity = 0.5;
+
+        var mesh = new THREE.Mesh(geometry, material);
+        mesh.receiveShadow = true;
+        el.setObject3D("mesh", mesh);
+      }
+    });
+  </script>
+  <!-- <script>
+    AFRAME.registerComponent("cube-env-map", {
+      schema: {
+        extension: { default: "jpg" },
+        format: { default: "RGBAFormat" },
+        enableBackground: { default: false }
+      },
+
+      init: function () {
+        const data = this.data;
+
+        this.texture = new THREE.CubeTextureLoader().load([
+          '/static/Cubemap/posx.png',
+          '/static/Cubemap/negx.png',
+          '/static/Cubemap/posy.png',
+          '/static/Cubemap/negy.png',
+          '/static/Cubemap/posz.png',
+          '/static/Cubemap/negz.png'
+        ]);
+
+        this.texture.format = THREE[data.format];
+
+        if (data.enableBackground) {
+          this.el.sceneEl.object3D.background = this.texture;
+        }
+
+        this.applyEnvMap();
+        this.el.addEventListener("object3dset", this.applyEnvMap.bind(this));
+      },
+
+      applyEnvMap: function () {
+        const mesh = this.el.getObject3D("mesh");
+        const envMap = this.texture;
+
+        if (!mesh) return;
+
+        mesh.traverse(function (node) {
+          if (node.material && "envMap" in node.material) {
+            node.material.envMap = envMap;
+            node.material.metalness = 0.95;
+            node.material.roughness = 1;
+            node.material.needsUpdate = true;
+          }
+        });
+      }
+    });
+  </script> -->
+</head>
+
+<body style="margin-bottom: 0">
+  <a-scene embedded arjs="debugUIEnabled: false; detectionMode: mono_and_matrix; matrixCodeType: 3x3;"
+    vr-mode-ui="enabled: false" renderer="colorManagement: true;">
+
+    <!-- Ornithopter -->
+    <a-marker type="barcode" value="11" id="marker-barcode-0">
+      <a-entity gltf-model="url(/projects/discover/dist/static/Ornithopter/Ornithopter.gltf)" shadow="cast: true; receive: true" cube-env-map
+        rotation="0 0 0" position="0 0 0" scale="0.80 0.80 0.80" animation-mixer></a-entity>
+
+      <!-- LIGHTING -->
+      <a-entity light="type: ambient; color: #e1f7f7; intensity: 0.4"></a-entity>
+      <a-entity light="type: directional; color: #FFF; intensity: 1; castShadow: true; " position="0.5 1 1"></a-entity>
+      <a-entity light="type: directional; color: #FFF; intensity: 0.5;" position="0.5 1 -1"></a-entity>
+    </a-marker>
+
+    <!-- Aerial Screw -->
+    <a-marker type="barcode" value="1" id="marker-barcode-1">
+      <a-entity gltf-model="url(/projects/discover/dist/static/AerialScrew/AerialScrew.gltf)" shadow="cast: true; receive: true" cube-env-map
+        rotation="0 0 0" position="0 0 0" scale="0.80 0.80 0.80" animation-mixer></a-entity>
+
+      <!-- LIGHTING -->
+      <a-entity light="type: ambient; color: #e1f7f7; intensity: 0.4"></a-entity>
+      <a-entity light="type: directional; color: #FFF; intensity: 1; castShadow: true; " position="0.5 1 1"></a-entity>
+      <a-entity light="type: directional; color: #FFF; intensity: 0.5;" position="0.5 1 -1"></a-entity>
+    </a-marker>
+
+    <!-- Robotic Knight -->
+    <a-marker type="barcode" value="2" id="marker-barcode-2">
+      <a-entity gltf-model="url(/projects/discover/dist/static/RoboticKnight/RoboticKnight.gltf)" shadow="cast: true; receive: true" cube-env-map
+        rotation="0 0 0" position="0 0 0" scale="0.80 0.80 0.80" animation-mixer></a-entity>
+
+      <!-- LIGHTING -->
+      <a-entity light="type: ambient; color: #e1f7f7; intensity: 0.4"></a-entity>
+      <a-entity light="type: directional; color: #FFF; intensity: 1; castShadow: true; " position="0.5 1 1"></a-entity>
+      <a-entity light="type: directional; color: #FFF; intensity: 0.5;" position="0.5 1 -1"></a-entity>
+    </a-marker>
+
+    <!-- Printing Press -->
+    <a-marker type="barcode" value="3" id="marker-barcode-3">
+      <a-entity gltf-model="url(/projects/discover/dist/static/PrintingPress/PrintingPress.gltf)" shadow="cast: true; receive: true" cube-env-map
+        rotation="0 0 0" position="0 0 0" scale="0.80 0.80 0.80" animation-mixer></a-entity>
+        
+      <!-- LIGHTING -->
+      <a-entity light="type: ambient; color: #e1f7f7; intensity: 0.4"></a-entity>
+      <a-entity light="type: directional; color: #FFF; intensity: 1; castShadow: true; " position="0.5 1 1"></a-entity>
+      <a-entity light="type: directional; color: #FFF; intensity: 0.5;" position="0.5 1 -1"></a-entity>
+    </a-marker>
+
+    <!-- Self-Propelled Cart -->
+    <a-marker type="barcode" value="4" id="marker-barcode-4">
+      <a-entity gltf-model="url(/projects/discover/dist/static/Cart/Cart.gltf)" shadow="cast: true; receive: true" cube-env-map
+        rotation="0 0 0" position="0 0 0" scale="0.80 0.80 0.80" animation-mixer></a-entity>
+
+      <!-- LIGHTING -->
+      <a-entity light="type: ambient; color: #e1f7f7; intensity: 0.4"></a-entity>
+      <a-entity light="type: directional; color: #FFF; intensity: 1; castShadow: true; " position="0.5 1 1"></a-entity>
+      <a-entity light="type: directional; color: #FFF; intensity: 0.5;" position="0.5 1 -1"></a-entity>
+    </a-marker>
+
+    <a-entity camera></a-entity>
+
+  </a-scene>
+</body>
+
+</html>
